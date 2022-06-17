@@ -1,8 +1,6 @@
 import Currency from "../models/currency.model";
 import { Request, Response} from 'express';
 
-let currency: Currency;
-
 exports.create = (req: Request, res: Response) => {
   if (!req.body) {
     res.status(400).send({
@@ -20,7 +18,7 @@ exports.create = (req: Request, res: Response) => {
     req.body.averagePrice,
   );
 
-  currency.create(currency.data, (err: Error, data: any) => {
+  Currency.create(currency.data, (err: Error, data: any) => {
     if (err)
       res.status(500).send({
         message:
@@ -32,7 +30,7 @@ exports.create = (req: Request, res: Response) => {
 
 exports.findAll = (req: Request, res: Response) => {
   const title = req.params.cryptoName;
-  currency.getAll(title, (err: Error, data: any) => {
+  Currency.getAll(title, (err: Error, data: any) => {
     if (err)
       res.status(500).send({
         message:
@@ -43,7 +41,7 @@ exports.findAll = (req: Request, res: Response) => {
 };
 
 exports.findOne = (req: Request, res: Response) => {
-  currency.findByName(req.params.name, (err: Error, data: any) => {
+  Currency.findByName(req.params.name, (err: Error, data: any) => {
     if (err) {
       if (err.message === "not_found") {
         res.status(404).send({
@@ -59,7 +57,7 @@ exports.findOne = (req: Request, res: Response) => {
 };
 
 exports.recent = (req: Request, res: Response) => {
-  currency.recent((err: Error, data: any) => {
+  Currency.recent((err: Error, data: any) => {
     if (err)
       res.status(500).send({
         message:
@@ -71,7 +69,7 @@ exports.recent = (req: Request, res: Response) => {
 
 
 exports.getInfo = (req: Request, res: Response) => {
-  currency.getInfo(req.params.name, req.params.market, req.params.date, (err: Error, data: any) => {
+  Currency.getInfo(req.params.name, req.params.market, req.params.date, (err: Error, data: any) => {
     if (err) {
       if (err.message === "not_found") {
         res.status(404).send({
@@ -93,7 +91,7 @@ exports.update = (req: Request, res: Response) => {
       });
     }
     console.log(req.body);
-    currency.updateById(
+    Currency.updateById(
       Number(req.params.id),
       new Currency( req.body.cryptoName,
         req.body.coinbaseValue,
@@ -120,7 +118,7 @@ exports.update = (req: Request, res: Response) => {
 };
 
 exports.delete = (req: Request, res: Response) => {
-    currency.remove(Number(req.params.id), (err: Error) => {
+    Currency.remove(Number(req.params.id), (err: Error) => {
       if (err) {
         if (err.message === "not_found") {
           res.status(404).send({
@@ -136,7 +134,7 @@ exports.delete = (req: Request, res: Response) => {
 };
 
 exports.deleteAll = (req: Request, res: Response) => {
-    currency.removeAll((err: Error) => {
+    Currency.removeAll((err: Error) => {
       if (err)
         res.status(500).send({
           message:

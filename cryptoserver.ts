@@ -1,9 +1,9 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { json } from "body-parser";
 import axios from "axios";
 import cron from "node-cron";
 import Currency from "./models/currency.model";
-import router from "./routes/currency.routes";
+import routes from "./routes/currency.routes";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,7 +11,7 @@ const app = express();
 const port = 3000;
 
 app.use(json());
-app.use("/api/currencies", router);
+app.use("/api/currencies", routes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Cryptocurrency commutator!");
@@ -31,7 +31,6 @@ let common: string[];
 interface Coins {
   [index: string]: string | number ;
 }
-const coindata = new Currency();
 
 async function getCoins() {
 
@@ -199,13 +198,13 @@ async function getApi(){
       arr[i].push(((Number(arr[i][1]) + arr[i][2] + arr[i][3] + arr[i][4] + Number(arr[i][5]))/5).toFixed(2));
     };
     
-    coindata.createAll(arr);
+    Currency.createAll(arr);
     
   };
   getPrice();
 };
 
-const cronjob = cron.schedule("*/2 * * * *", () => {
+const cronjob = cron.schedule("*/5 * * * *", () => {
   console.log("Running server every 5 minute");
   getApi();
 });

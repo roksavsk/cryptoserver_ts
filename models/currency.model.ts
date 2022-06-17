@@ -7,7 +7,7 @@ class Currency {
 
   data: any[] = [this.cryptoName, this.coinbaseValue, this.coinstatsValue, this.coinmarketValue, this.coinpaprikaValue, this.kucoinValue, this.averagePrice];
 
-  create (newCurrency: any[], result: any) {
+  static create (newCurrency: any[], result: any) {
     sql.query("INSERT INTO currencies SET ?", newCurrency, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -19,7 +19,7 @@ class Currency {
     });
   };
 
-  createAll = (newCurrency: any[]) => {
+  static createAll = (newCurrency: any[]) => {
     sql.query("INSERT INTO currencies (cryptoName, coinbaseValue, coinstatsValue, coinmarketValue, coinpaprikaValue, kucoinValue, averagePrice) VALUES ?", [newCurrency], (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -29,7 +29,7 @@ class Currency {
     });
   };
 
-  findByName = (name: string, result:any ) => {
+  static findByName = (name: string, result:any ) => {
     sql.query(`SELECT * FROM currencies WHERE cryptoName = '${name}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -45,8 +45,8 @@ class Currency {
     });
   };
 
-  recent = (result: any) => {
-    sql.query("SELECT cryptoName, averagePrice FROM currencies ORDER BY id DESC LIMIT 20", (err, res) => {
+  static recent = (result: any) => {
+    sql.query("SELECT cryptoName, averagePrice FROM currencies ORDER BY id DESC LIMIT 20", (err, res: []) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -61,7 +61,7 @@ class Currency {
     });
   };
 
-  getInfo = (name: string, market: string, date: string, result: any) => {
+  static getInfo = (name: string, market: string, date: string, result: any) => {
     sql.query(`SELECT cryptoName, ${market}, averagePrice, date_time FROM currencies WHERE cryptoName = '${name}' AND date_time LIKE '${date}%'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -78,7 +78,7 @@ class Currency {
   };
 
 
-  getAll = (cryptoName: string, result: any) => {
+  static getAll = (cryptoName: string, result: any) => {
     let query = "SELECT * FROM currencies";
     if (cryptoName) {
       query += ` WHERE cryptoName LIKE '%${cryptoName}%'`;
@@ -94,7 +94,7 @@ class Currency {
     });
   };
 
-  updateById = (id: number, currency: Currency, result:any ) => {
+  static updateById = (id: number, currency: Currency, result:any ) => {
     sql.query(
       "UPDATE currencies SET cryptoName = ?, coinbaseValue = ?, coinstatsValue = ?, coinmarketValue = ?, coinpaprikaValue = ?, kucoinValue = ?, averagePrice = ? WHERE id = ?",
       [currency.cryptoName, currency.coinbaseValue, currency.coinstatsValue, currency.coinmarketValue, currency.coinpaprikaValue, currency.kucoinValue, currency.averagePrice, id],
@@ -114,7 +114,7 @@ class Currency {
     );
   };
 
-  remove = (id: number, result: any) => {
+  static remove = (id: number, result: any) => {
     sql.query("DELETE FROM currencies WHERE id = ?", id, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -130,7 +130,7 @@ class Currency {
     });
   };
 
-  removeAll = (result: any) => {
+  static removeAll = (result: any) => {
     sql.query("DELETE FROM currencies", (err, res) => {
       if (err) {
         console.log("error: ", err);
