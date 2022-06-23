@@ -97,7 +97,7 @@ async function getCoins() {
     const coins1 = [coinstats1, coinmarket1, coinpaprika1];
     const coins2 = [coinbase1, kucoin1];
     let j = 0;
-    const existAll = [[], [], [], [], []];
+    const existAll: string[][] = [[], [], [], [], []];
     coins1.forEach(item => {
       for (let i=0; i < item.length; i++) {
         existAll[j].push(item[i]['symbol']);
@@ -189,7 +189,7 @@ async function getApi(){
     coinpaprika = sortObject(coinpaprika);
     kucoin = sortObject(kucoin);
 
-    const arr = Object.entries(coinbase);
+    const arr: any[] = Object.entries(coinbase);
     for (let i=0; i < Object.entries(coinbase).length; i++){
       arr[i].push(Object.values(coinstats)[i]);
       arr[i].push(Object.values(coinmarket)[i]);

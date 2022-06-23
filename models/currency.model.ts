@@ -30,7 +30,7 @@ class Currency {
   };
 
   static findByName = (name: string, result:any ) => {
-    sql.query(`SELECT * FROM currencies WHERE cryptoName = '${name}'`, (err, res) => {
+    sql.query(`SELECT * FROM currencies WHERE cryptoName = '${name}'`, (err, res: []) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -62,7 +62,7 @@ class Currency {
   };
 
   static getInfo = (name: string, market: string, date: string, result: any) => {
-    sql.query(`SELECT cryptoName, ${market}, averagePrice, date_time FROM currencies WHERE cryptoName = '${name}' AND date_time LIKE '${date}%'`, (err, res) => {
+    sql.query(`SELECT cryptoName, ${market}, averagePrice, date_time FROM currencies WHERE cryptoName = '${name}' AND date_time LIKE '${date}%'`, (err, res: []) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -98,7 +98,7 @@ class Currency {
     sql.query(
       "UPDATE currencies SET cryptoName = ?, coinbaseValue = ?, coinstatsValue = ?, coinmarketValue = ?, coinpaprikaValue = ?, kucoinValue = ?, averagePrice = ? WHERE id = ?",
       [currency.cryptoName, currency.coinbaseValue, currency.coinstatsValue, currency.coinmarketValue, currency.coinpaprikaValue, currency.kucoinValue, currency.averagePrice, id],
-      (err, res) => {
+      (err, res: any) => {
         if (err) {
           console.log("error: ", err);
           result(null, err);
@@ -115,7 +115,7 @@ class Currency {
   };
 
   static remove = (id: number, result: any) => {
-    sql.query("DELETE FROM currencies WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM currencies WHERE id = ?", id, (err, res: any) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -131,7 +131,7 @@ class Currency {
   };
 
   static removeAll = (result: any) => {
-    sql.query("DELETE FROM currencies", (err, res) => {
+    sql.query("DELETE FROM currencies", (err, res: any) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
