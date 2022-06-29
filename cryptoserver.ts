@@ -9,6 +9,16 @@ dotenv.config();
 
 const app = express();
 const port = 3000;
+const cronjob = cron.schedule("*/5 * * * *", () => {
+  console.log("Running server every 5 minute");
+  getApi();
+});
+
+let coinbase1: []; let coinmarket1: []; let coinstats1: []; let coinpaprika1: []; let kucoin1: [];
+let common: string[];
+interface Coins {
+  [index: string]: string | number ;
+}
 
 app.use(json());
 app.use("/api/currencies", routes);
@@ -25,12 +35,6 @@ app.get("/coins", async (req, res) => {
   const topcoins = await getCoins();
   res.send(topcoins);
 });
-
-let coinbase1: []; let coinmarket1: []; let coinstats1: []; let coinpaprika1: []; let kucoin1: [];
-let common: string[];
-interface Coins {
-  [index: string]: string | number ;
-}
 
 async function getCoins() {
 
@@ -203,10 +207,5 @@ async function getApi(){
   };
   getPrice();
 };
-
-const cronjob = cron.schedule("*/5 * * * *", () => {
-  console.log("Running server every 5 minute");
-  getApi();
-});
 
 cronjob.start();
