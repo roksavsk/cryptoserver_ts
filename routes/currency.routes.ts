@@ -1,22 +1,23 @@
-import { Router } from "express";
-import currencies from "../controllers/currency.controller";
+import { Router } from 'express';
+
+import currencies from '../controllers/currency.controller';
 
 const router = Router();
 // Create a new Currency
-router.post("/", currencies.create);
+router.post('/', currencies.create);
 // Retrieve all Currencies
-router.get("/", currencies.findAll);
+router.get('/', currencies.findAll);
 // Retrieve top Currencies
-router.get("/recent", currencies.recent);
+router.get('/recent', currencies.recent);
 // Retrieve Currency by name
-router.get("/:name", currencies.findOne);
+router.get('/:name', currencies.findOne);
 // Retrieve info about Currency by name
-router.get("/info/:name/:market/:date", currencies.getInfo);
+router.get('/info/:name/:market/:date', currencies.getInfo);
 // Update a Currency with id
-router.put("/:id", currencies.update);
+router.put('/:id', currencies.update);
 // Delete a Currency with id
-router.delete("/:id", currencies.delete);
+router.delete('/:id', currencies.delete);
 // Delete all Currencies
-router.delete("/", currencies.deleteAll);
+router.delete('/', currencies.deleteAll);
 
 export default router;
